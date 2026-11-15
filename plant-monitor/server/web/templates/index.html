@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="30">
+  <title>Room monitor</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; margin: 1.5rem;
+           display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+    .card { border: 1px solid #8886; border-radius: 12px;
+            padding: 1.25rem 1.5rem; min-width: 200px; }
+    .node { color: #888; font-size: .95rem; margin-bottom: .25rem; }
+    .temp { font-size: 2.5rem; font-weight: 600; }
+    .hum  { font-size: 1.25rem; }
+    .lght { font-size: 1.25rem; }
+  </style>
+</head>
+<body>
+  {% for n in nodes %}
+  <div class="card">
+    <div class="node">{{ n.node }}</div>
+    <div class="temp">{{ n.temp_f }} °F</div>
+    <div class="hum">{{ n.humidity }} % humidity</div>
+    <div class="lght">{{ n.light_lvl }} % light</div>
+  </div>
+  {% else %}
+  <p>No readings yet.</p>
+  {% endfor %}
+</body>
+</html>
