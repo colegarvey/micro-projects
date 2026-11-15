@@ -1,0 +1,31 @@
+services:
+  ts-plant-monitor:
+    image: tailscale/tailscale:latest
+    container_name: <>
+    hostname: <>
+    environment:
+      - TS_AUTHKEY=<>
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    volumes:
+      - ts-plant-monitor-state:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+    restart: unless-stopped
+
+  plant-monitor-web:
+    build: .
+    container_name: <>
+    restart: unless-stopped
+    network_mode: service:ts-plant-monitor
+    depends_on:
+      - ts-plant-monitor
+    volumes:
+      - /home/cole/plant-monitor:/data:ro
+      - /home/cole/plant-monitor/web/templates:/app/templates:ro
+      - /etc/localtime:/etc/localtime:ro
+
+volumes:
+  ts-plant-monitor-state:
